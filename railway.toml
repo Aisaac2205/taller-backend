@@ -1,0 +1,8 @@
+[service]
+name = "turboauto-backend"
+start = "pnpm run start:prod"
+
+[envs.production]
+PORT = "4000"
+ENABLE_HELMET = "true"
+LOG_LEVEL = "info"
