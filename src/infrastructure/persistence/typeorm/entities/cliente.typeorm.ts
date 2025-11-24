@@ -23,10 +23,10 @@ export class ClienteTypeormEntity {
   @Column()
   direccion!: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'actualizadoen' })
   actualizadoEn!: Date;
 }
 

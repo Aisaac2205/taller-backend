@@ -13,11 +13,11 @@ export class MovimientoKardexTypeormEntity {
   @PrimaryColumn('uuid')
   id!: string;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'productoid' })
   productoId!: string;
 
   @ManyToOne(() => ProductoTypeormEntity)
-  @JoinColumn({ name: 'productoId' })
+  @JoinColumn({ name: 'productoid' })
   producto!: ProductoTypeormEntity;
 
   @Column({
@@ -29,18 +29,18 @@ export class MovimientoKardexTypeormEntity {
   @Column()
   cantidad!: number;
 
-  @Column('decimal', { precision: 12, scale: 2 })
+  @Column('decimal', { precision: 12, scale: 2, name: 'preciounitario' })
   precioUnitario!: number;
 
-  @Column('decimal', { precision: 12, scale: 2 })
+  @Column('decimal', { precision: 12, scale: 2, name: 'totalmovimiento' })
   totalMovimiento!: number;
 
   @Column()
   razon!: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'referenciaid' })
   referenciaId!: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;
 }

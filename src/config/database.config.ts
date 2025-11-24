@@ -33,7 +33,7 @@ export const getTypeOrmConfig = (
       MovimientoKardexTypeormEntity,
       RecordatorioTypeormEntity,
     ],
-    synchronize: process.env.NODE_ENV === 'development',
+    synchronize: false, // Nunca usar synchronize en producción
     logging: process.env.NODE_ENV === 'development',
   };
 };

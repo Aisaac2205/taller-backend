@@ -16,28 +16,28 @@ export class ServicioTypeormEntity {
   @PrimaryColumn('uuid')
   id!: string;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'vehiculoid' })
   vehiculoId!: string;
 
   @ManyToOne(() => VehiculoTypeormEntity)
-  @JoinColumn({ name: 'vehiculoId' })
+  @JoinColumn({ name: 'vehiculoid' })
   vehiculo!: VehiculoTypeormEntity;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'clienteid' })
   clienteId!: string;
 
   @ManyToOne(() => ClienteTypeormEntity)
-  @JoinColumn({ name: 'clienteId' })
+  @JoinColumn({ name: 'clienteid' })
   cliente!: ClienteTypeormEntity;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'mecanicoid' })
   mecanicoId!: string;
 
   @ManyToOne(() => UsuarioTypeormEntity)
-  @JoinColumn({ name: 'mecanicoId' })
+  @JoinColumn({ name: 'mecanicoid' })
   mecanico!: UsuarioTypeormEntity;
 
-  @Column()
+  @Column({ name: 'kmregistrado' })
   kmRegistrado!: number;
 
   @Column()
@@ -56,15 +56,15 @@ export class ServicioTypeormEntity {
   })
   estado!: string;
 
-  @Column('decimal', { precision: 12, scale: 2 })
+  @Column('decimal', { precision: 12, scale: 2, name: 'costototal' })
   costoTotal!: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'actualizadoen' })
   actualizadoEn!: Date;
 
-  @Column({ nullable: true, type: 'timestamp' })
+  @Column({ nullable: true, type: 'timestamp', name: 'completadoen' })
   completadoEn!: Date | null;
 }

@@ -23,18 +23,18 @@ export class ProductoTypeormEntity {
   @Column()
   presentacion!: string;
 
-  @Column('decimal', { precision: 12, scale: 2 })
+  @Column('decimal', { precision: 12, scale: 2, name: 'costounitario' })
   costoUnitario!: number;
 
-  @Column('decimal', { precision: 5, scale: 2 })
+  @Column('decimal', { precision: 5, scale: 2, name: 'margenporcentaje' })
   margenPorcentaje!: number;
 
-  @Column()
+  @Column({ name: 'stockactual' })
   stockActual!: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'actualizadoen' })
   actualizadoEn!: Date;
 }

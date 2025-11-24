@@ -14,11 +14,11 @@ export class VehiculoTypeormEntity {
   @PrimaryColumn('uuid')
   id!: string;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'clienteid' })
   clienteId!: string;
 
   @ManyToOne(() => ClienteTypeormEntity, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'clienteId' })
+  @JoinColumn({ name: 'clienteid' })
   cliente!: ClienteTypeormEntity;
 
   @Column({ unique: true })
@@ -33,12 +33,12 @@ export class VehiculoTypeormEntity {
   @Column()
   anio!: number;
 
-  @Column()
+  @Column({ name: 'kmactual' })
   kmActual!: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'actualizadoen' })
   actualizadoEn!: Date;
 }

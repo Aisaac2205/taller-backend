@@ -8,6 +8,9 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
+  // Prefijo global para todas las rutas
+  app.setGlobalPrefix('api');
+
   // Validación global
   app.useGlobalPipes(
     new ValidationPipe({
@@ -38,7 +41,7 @@ async function bootstrap(): Promise<void> {
 
   await app.listen(port, () => {
     console.log(
-      `🚀 Server running on http://localhost:${port} [${nodeEnv}]`
+      `Server running on http://localhost:${port} [${nodeEnv}]`
     );
   });
 }

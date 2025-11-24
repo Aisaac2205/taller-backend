@@ -14,7 +14,7 @@ export class UsuarioTypeormEntity {
   @Column({ unique: true })
   email!: string;
 
-  @Column()
+  @Column({ name: 'passwordhash' })
   passwordHash!: string;
 
   @Column()
@@ -29,10 +29,10 @@ export class UsuarioTypeormEntity {
   @Column({ default: true })
   activo!: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'actualizadoen' })
   actualizadoEn!: Date;
 }
 

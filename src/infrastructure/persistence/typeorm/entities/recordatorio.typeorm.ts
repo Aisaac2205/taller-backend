@@ -15,30 +15,31 @@ export class RecordatorioTypeormEntity {
   @PrimaryColumn('uuid')
   id!: string;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'vehiculoid' })
   vehiculoId!: string;
 
   @ManyToOne(() => VehiculoTypeormEntity)
-  @JoinColumn({ name: 'vehiculoId' })
+  @JoinColumn({ name: 'vehiculoid' })
   vehiculo!: VehiculoTypeormEntity;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'clienteid' })
   clienteId!: string;
 
   @ManyToOne(() => ClienteTypeormEntity)
-  @JoinColumn({ name: 'clienteId' })
+  @JoinColumn({ name: 'clienteid' })
   cliente!: ClienteTypeormEntity;
 
   @Column({
     type: 'enum',
     enum: ['CAMBIO_ACEITE', 'MANTENIMIENTO'],
+    name: 'tiporecordatorio',
   })
   tipoRecordatorio!: string;
 
-  @Column()
+  @Column({ name: 'kmproximo' })
   kmProximo!: number;
 
-  @Column()
+  @Column({ name: 'fechaproxima' })
   fechaProxima!: Date;
 
   @Column()
@@ -50,9 +51,9 @@ export class RecordatorioTypeormEntity {
   })
   estado!: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'actualizadoen' })
   actualizadoEn!: Date;
 }

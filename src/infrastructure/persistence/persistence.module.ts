@@ -17,7 +17,7 @@ import { ServicioRepository } from './typeorm/repositories/servicio.repository';
 import { VentaRepository } from './typeorm/repositories/venta.repository';
 import { MovimientoKardexRepository } from './typeorm/repositories/movimiento-kardex.repository';
 import { RecordatorioRepository } from './typeorm/repositories/recordatorio.repository';
-import { getTypeOrmConfig } from '@/config/database.config';
+import { getTypeOrmConfig } from '@config/database.config';
 
 @Module({
   imports: [

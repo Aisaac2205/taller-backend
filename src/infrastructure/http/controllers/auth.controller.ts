@@ -34,12 +34,14 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   async login(@Body() loginDto: LoginDto): Promise<{
-    access_token: string;
-    usuario: {
+    token: string;
+    user: {
       id: string;
       email: string;
-      nombre: string;
-      rol: string;
+      name: string;
+      role: string;
+      createdAt: string;
+      updatedAt: string;
     };
   }> {
     const usuario = await this.usuarioRepository.obtenerPorEmail(
@@ -69,7 +71,7 @@ export class AuthController {
     };
 
     // Generar JWT con expiración explícita (24 horas)
-    const access_token = this.jwtService.sign(payload, {
+    const token = this.jwtService.sign(payload, {
       expiresIn: '24h',
       algorithm: 'HS256', // Algoritmo seguro
       issuer: 'taller-api',
@@ -77,19 +79,28 @@ export class AuthController {
     });
 
     return {
-      access_token,
-      usuario: {
+      token,
+      user: {
         id: usuario.id,
         email: usuario.email.getValue(),
-        nombre: usuario.nombre,
-        rol: usuario.rol,
+        name: usuario.nombre,
+        role: usuario.rol,
+        createdAt: usuario.creadoEn.toISOString(),
+        updatedAt: usuario.actualizadoEn.toISOString(),
       },
     };
   }
 
   @Get('me')
   @UseGuards(JwtGuard)
-  async getMe(@Request() req: AuthRequest): Promise<any> {
+  async getMe(@Request() req: AuthRequest): Promise<{
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+  }> {
     const usuario = await this.usuarioRepository.obtenerPorId(req.user.sub);
     if (!usuario) {
       throw new NotFoundException('Usuario no encontrado');
@@ -98,9 +109,10 @@ export class AuthController {
     return {
       id: usuario.id,
       email: usuario.email.getValue(),
-      nombre: usuario.nombre,
-      rol: usuario.rol,
-      activo: usuario.activo,
+      name: usuario.nombre,
+      role: usuario.rol,
+      createdAt: usuario.creadoEn.toISOString(),
+      updatedAt: usuario.actualizadoEn.toISOString(),
     };
   }
 }

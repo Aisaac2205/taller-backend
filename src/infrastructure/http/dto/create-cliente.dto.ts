@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString, Matches, Length } from 'class-validator';
 
 export class CreateClienteDto {
   @IsString()
@@ -9,6 +9,8 @@ export class CreateClienteDto {
   email?: string;
 
   @IsString()
+  @Length(8, 8, { message: 'El teléfono debe tener exactamente 8 dígitos' })
+  @Matches(/^\d+$/, { message: 'El teléfono solo debe contener números' })
   telefono!: string;
 
   @IsString()
