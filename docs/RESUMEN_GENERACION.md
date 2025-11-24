@@ -416,7 +416,7 @@ Scheduler
 # Para empezar:
 pnpm install
 pnpm dev
-# Server en http://localhost:3000
+# Server en http://localhost:3002
 ```
 
 ---

@@ -51,11 +51,11 @@ Crear archivo `.env` en la raíz del proyecto:
 
 ```bash
 NODE_ENV=development
-PORT=3000
+PORT=3002
 DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/taller_db
 JWT_SECRET=tu-secret-key-minimo-32-caracteres-aqui!
 JWT_EXPIRATION=24h
-FRONTEND_ORIGINS=http://localhost:3001,http://localhost:3002
+FRONTEND_ORIGINS=http://localhost:3000
 ```
 
 ### 2. Instalar dependencias

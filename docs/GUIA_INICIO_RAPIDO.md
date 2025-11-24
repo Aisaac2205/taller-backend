@@ -15,11 +15,11 @@ nano .env  # o usa tu editor preferido
 Contenido mínimo de `.env`:
 ```
 NODE_ENV=development
-PORT=3000
+PORT=3002
 DATABASE_URL=postgresql://user:password@localhost:5432/taller_db
 JWT_SECRET=tu-clave-secreta-super-segura-32-caracteres!
 JWT_EXPIRATION=24h
-FRONTEND_ORIGINS=http://localhost:3001,http://localhost:3002
+FRONTEND_ORIGINS=http://localhost:3000
 ```
 
 ### 2. Crear base de datos
@@ -41,7 +41,7 @@ pnpm install
 # Ejecutar en modo desarrollo (hot-reload)
 pnpm dev
 
-# ✅ Server corriendo en http://localhost:3000
+# ✅ Server corriendo en http://localhost:3002
 ```
 
 ## 🔑 Credenciales de prueba
@@ -64,7 +64,7 @@ VALUES (
 
 Luego login:
 ```bash
-curl -X POST http://localhost:3000/auth/login \
+curl -X POST http://localhost:3002/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@taller.com","password":"admin123"}'
 ```

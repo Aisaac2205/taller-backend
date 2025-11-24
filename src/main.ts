@@ -36,7 +36,7 @@ async function bootstrap(): Promise<void> {
     next();
   });
 
-  const port = configService.get<number>('PORT') || 3000;
+  const port = configService.get<number>('PORT') || 3002;
   const nodeEnv = configService.get<string>('NODE_ENV') || 'development';
 
   await app.listen(port, () => {
