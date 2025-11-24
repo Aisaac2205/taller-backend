@@ -3,6 +3,10 @@ name = "turboauto-backend"
 start = "pnpm run start:prod"
 
 [envs.production]
+NODE_ENV = "production"
 PORT = "4000"
+# Orígenes permitidos para CORS (separados por comas)
+FRONTEND_ORIGINS = "https://taller.turboautogt.com,https://www.taller.turboautogt.com"
 ENABLE_HELMET = "true"
 LOG_LEVEL = "info"
+
