@@ -27,6 +27,11 @@ export class ServicioEntity {
   actualizadoEn: Date;
   completadoEn?: Date;
 
+  tipo: 'REEMPLAZO_PIEZA' | 'CAMBIO_ACEITE' | 'GENERAL';
+  proximoCambioKm?: number;
+  proximoCambioFecha?: Date;
+  piezaReemplazada?: string;
+
   constructor(data: {
     id: string;
     vehiculoId: string;
@@ -40,6 +45,10 @@ export class ServicioEntity {
     creadoEn?: Date;
     actualizadoEn?: Date;
     completadoEn?: Date;
+    tipo?: 'REEMPLAZO_PIEZA' | 'CAMBIO_ACEITE' | 'GENERAL';
+    proximoCambioKm?: number;
+    proximoCambioFecha?: Date;
+    piezaReemplazada?: string;
   }) {
     this.id = data.id;
     this.vehiculoId = data.vehiculoId;
@@ -53,6 +62,10 @@ export class ServicioEntity {
     this.creadoEn = data.creadoEn ?? new Date();
     this.actualizadoEn = data.actualizadoEn ?? new Date();
     this.completadoEn = data.completadoEn;
+    this.tipo = data.tipo ?? 'GENERAL';
+    this.proximoCambioKm = data.proximoCambioKm;
+    this.proximoCambioFecha = data.proximoCambioFecha;
+    this.piezaReemplazada = data.piezaReemplazada;
   }
 
   public calcularCostoTotal(): Decimal {

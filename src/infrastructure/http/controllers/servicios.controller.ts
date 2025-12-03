@@ -45,7 +45,7 @@ export class ServiciosController {
     private recordatorioRepository: IRecordatorioRepository,
     @Inject('IMovimientoKardexRepository')
     private movimientoKardexRepository: IMovimientoKardexRepository
-  ) {}
+  ) { }
 
   @Get()
   @Roles(RolUsuario.ADMIN, RolUsuario.OWNER, RolUsuario.MECHANIC)
@@ -87,6 +87,10 @@ export class ServiciosController {
       kmRegistrado: dto.kmRegistrado,
       descripcion: dto.descripcion,
       detalles: dto.detalles,
+      tipo: dto.tipo,
+      proximoCambioKm: dto.proximoCambioKm,
+      proximoCambioFecha: dto.proximoCambioFecha,
+      piezaReemplazada: dto.piezaReemplazada,
     });
 
     return this.mapearRespuesta(servicio);
