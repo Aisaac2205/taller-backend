@@ -13,7 +13,7 @@ import { JwtGuard } from '@infrastructure/auth/jwt.guard';
 import { RolesGuard } from '@infrastructure/auth/roles.guard';
 import { Roles } from '@infrastructure/auth/roles.decorator';
 import { RolUsuario } from '@domain/entities/usuario.entity';
-import { ProductoEntity, TipoProducto } from '@domain/entities/producto.entity';
+import { ProductoEntity } from '@domain/entities/producto.entity';
 import { Decimal } from '@domain/value-objects/decimal.vo';
 import { IProductoRepository } from '@application/ports/producto.repository';
 import { CreateProductoDto } from '../dto/create-producto.dto';
@@ -25,7 +25,7 @@ export class ProductosController {
   constructor(
     @Inject('IProductoRepository')
     private productoRepository: IProductoRepository
-  ) {}
+  ) { }
 
   @Get()
   @Roles(RolUsuario.ADMIN, RolUsuario.OWNER, RolUsuario.MECHANIC, RolUsuario.RECEPCION)
@@ -49,12 +49,12 @@ export class ProductosController {
   async crear(@Body() createDto: CreateProductoDto): Promise<any> {
     const producto = new ProductoEntity({
       id: uuid(),
-      tipo: createDto.tipo as TipoProducto,
-      marca: createDto.marca,
-      presentacion: createDto.presentacion,
-      costoUnitario: new Decimal(createDto.costoUnitario),
-      margenPorcentaje: new Decimal(createDto.margenPorcentaje),
-      stockActual: createDto.stockActual,
+      nombre: createDto.nombre,
+      descripcion: createDto.descripcion,
+      sku: createDto.sku,
+      precio: createDto.precio,
+      categoria: createDto.categoria,
+      stock: createDto.stock,
     });
 
     const productoGuardado = await this.productoRepository.crear(producto);
@@ -72,17 +72,12 @@ export class ProductosController {
       throw new Error('Producto no encontrado');
     }
 
-    if (updateDto.marca) producto.marca = updateDto.marca;
-    if (updateDto.presentacion) producto.presentacion = updateDto.presentacion;
-    if (updateDto.costoUnitario) {
-      producto.costoUnitario = new Decimal(updateDto.costoUnitario);
-    }
-    if (updateDto.margenPorcentaje) {
-      producto.margenPorcentaje = new Decimal(updateDto.margenPorcentaje);
-    }
-    if (updateDto.stockActual !== undefined) {
-      producto.stockActual = updateDto.stockActual;
-    }
+    if (updateDto.nombre) producto.nombre = updateDto.nombre;
+    if (updateDto.descripcion) producto.descripcion = updateDto.descripcion;
+    if (updateDto.sku) producto.sku = updateDto.sku;
+    if (updateDto.precio) producto.precio = new Decimal(updateDto.precio);
+    if (updateDto.categoria) producto.categoria = updateDto.categoria;
+    if (updateDto.stock !== undefined) producto.stock = updateDto.stock;
 
     const actualizado = await this.productoRepository.actualizar(producto);
     return this.mapearRespuesta(actualizado);
@@ -97,13 +92,13 @@ export class ProductosController {
   private mapearRespuesta(producto: ProductoEntity): any {
     return {
       id: producto.id,
-      tipo: producto.tipo,
-      marca: producto.marca,
-      presentacion: producto.presentacion,
-      costoUnitario: producto.costoUnitario.getValue(),
-      margenPorcentaje: producto.margenPorcentaje.getValue(),
+      nombre: producto.nombre,
+      descripcion: producto.descripcion,
+      sku: producto.sku,
+      precio: producto.precio.getValue(),
+      categoria: producto.categoria,
+      stock: producto.stock,
       precioVentaCalculado: producto.obtenerPrecioVentaCalculado().getValue(),
-      stockActual: producto.stockActual,
       creadoEn: producto.creadoEn,
       actualizadoEn: producto.actualizadoEn,
     };

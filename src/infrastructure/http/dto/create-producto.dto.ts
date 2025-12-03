@@ -1,22 +1,29 @@
-import { IsEnum, IsString, IsNumber } from 'class-validator';
+import { IsEnum, IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateProductoDto {
-  @IsEnum(['ACEITE', 'FILTRO', 'OTRO'])
-  tipo!: string;
+  @IsString()
+  @IsOptional()
+  nombre?: string;
 
   @IsString()
-  marca!: string;
+  @IsOptional()
+  descripcion?: string;
 
   @IsString()
-  presentacion!: string;
+  @IsOptional()
+  sku?: string;
 
   @IsNumber()
-  costoUnitario!: number;
+  @IsOptional()
+  precio?: number;
+
+  @IsString()
+  @IsOptional()
+  categoria?: string;
 
   @IsNumber()
-  margenPorcentaje!: number;
+  @IsOptional()
+  stock?: number;
 
-  @IsNumber()
-  stockActual!: number;
 }
 

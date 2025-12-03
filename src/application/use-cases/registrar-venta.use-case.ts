@@ -12,7 +12,7 @@ export class RegistrarVentaUseCase {
     private readonly ventaRepository: IVentaRepository,
     private readonly productoRepository: IProductoRepository,
     private readonly movimientoKardexRepository: IMovimientoKardexRepository
-  ) {}
+  ) { }
 
   async ejecutar(input: {
     clienteId: string;
@@ -34,7 +34,7 @@ export class RegistrarVentaUseCase {
 
       if (!producto.tieneStock(detalle.cantidad)) {
         throw new Error(
-          `Stock insuficiente para producto ${producto.marca} ${producto.presentacion}`
+          `Stock insuficiente para producto ${producto.nombre}`
         );
       }
 

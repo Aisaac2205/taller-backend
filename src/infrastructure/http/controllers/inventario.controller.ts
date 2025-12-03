@@ -20,7 +20,7 @@ export class InventarioController {
     private movimientoKardexRepository: IMovimientoKardexRepository,
     @Inject('IProductoRepository')
     private productoRepository: IProductoRepository
-  ) {}
+  ) { }
 
   @Get('kardex/:productoId')
   @Roles(RolUsuario.ADMIN, RolUsuario.OWNER)
@@ -52,14 +52,11 @@ export class InventarioController {
     const productos = await this.productoRepository.obtenerTodos();
     return productos.map((p) => ({
       id: p.id,
-      tipo: p.tipo,
-      marca: p.marca,
-      presentacion: p.presentacion,
-      costoUnitario: p.costoUnitario.getValue(),
-      margenPorcentaje: p.margenPorcentaje.getValue(),
-      precioVentaCalculado: p.obtenerPrecioVentaCalculado().getValue(),
-      stockActual: p.stockActual,
-      stockCritico: p.stockActual < 10,
+      nombre: p.nombre,
+      sku: p.sku,
+      precio: p.precio.getValue(),
+      stock: p.stock,
+      stockCritico: p.stock < 10,
     }));
   }
 }

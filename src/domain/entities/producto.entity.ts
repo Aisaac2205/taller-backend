@@ -8,58 +8,57 @@ export enum TipoProducto {
 
 export class ProductoEntity {
   id: string;
-  tipo: TipoProducto;
-  marca: string;
-  presentacion: string;
-  costoUnitario: Decimal;
-  margenPorcentaje: Decimal;
-  stockActual: number;
+  nombre: string;
+  descripcion: string;
+  sku: string;
+  precio: Decimal;
+  categoria: string;
+  stock: number;
+
   creadoEn: Date;
   actualizadoEn: Date;
 
   constructor(data: {
     id: string;
-    tipo: TipoProducto;
-    marca: string;
-    presentacion: string;
-    costoUnitario: Decimal;
-    margenPorcentaje: Decimal;
-    stockActual: number;
+    nombre?: string;
+    descripcion?: string;
+    sku?: string;
+    precio?: Decimal | number;
+    categoria?: string;
+    stock?: number;
     creadoEn?: Date;
     actualizadoEn?: Date;
   }) {
     this.id = data.id;
-    this.tipo = data.tipo;
-    this.marca = data.marca;
-    this.presentacion = data.presentacion;
-    this.costoUnitario = data.costoUnitario;
-    this.margenPorcentaje = data.margenPorcentaje;
-    this.stockActual = data.stockActual;
+    this.nombre = data.nombre || '';
+    this.descripcion = data.descripcion || '';
+    this.sku = data.sku || '';
+    this.precio = data.precio instanceof Decimal ? data.precio : new Decimal(data.precio || 0);
+    this.categoria = data.categoria || '';
+    this.stock = data.stock || 0;
+
     this.creadoEn = data.creadoEn ?? new Date();
     this.actualizadoEn = data.actualizadoEn ?? new Date();
   }
 
   public obtenerPrecioVentaCalculado(): Decimal {
-    const factor = new Decimal(
-      1 + this.margenPorcentaje.getValue() / 100
-    );
-    return this.costoUnitario.multiply(factor.getValue());
+    return this.precio;
   }
 
   public tieneStock(cantidad: number): boolean {
-    return this.stockActual >= cantidad;
+    return this.stock >= cantidad;
   }
 
   public descontarStock(cantidad: number): void {
     if (!this.tieneStock(cantidad)) {
       throw new Error(
-        `Stock insuficiente. Disponible: ${this.stockActual}, Solicitado: ${cantidad}`
+        `Stock insuficiente. Disponible: ${this.stock}, Solicitado: ${cantidad}`
       );
     }
-    this.stockActual -= cantidad;
+    this.stock -= cantidad;
   }
 
   public agregarStock(cantidad: number): void {
-    this.stockActual += cantidad;
+    this.stock += cantidad;
   }
 }

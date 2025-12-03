@@ -19,7 +19,7 @@ export class RegistrarServicioUseCase {
     private readonly recordatorioRepository: IRecordatorioRepository,
     private readonly movimientoKardexRepository: IMovimientoKardexRepository,
     private readonly calculoService: CalculoProximoCambioService
-  ) {}
+  ) { }
 
   async ejecutar(input: {
     vehiculoId: string;
@@ -31,6 +31,10 @@ export class RegistrarServicioUseCase {
       productoId: string;
       cantidad: number;
     }>;
+    tipo: 'REEMPLAZO_PIEZA' | 'CAMBIO_ACEITE' | 'GENERAL';
+    proximoCambioKm?: number;
+    proximoCambioFecha?: string;
+    piezaReemplazada?: string;
   }): Promise<ServicioEntity> {
     // Validar vehículo existe
     const vehiculo = await this.vehiculoRepository.obtenerPorId(
@@ -52,7 +56,7 @@ export class RegistrarServicioUseCase {
 
       if (!producto.tieneStock(detalle.cantidad)) {
         throw new Error(
-          `Stock insuficiente para producto ${producto.marca} ${producto.presentacion}`
+          `Stock insuficiente para producto ${producto.nombre}`
         );
       }
 
@@ -90,6 +94,10 @@ export class RegistrarServicioUseCase {
       kmRegistrado: input.kmRegistrado,
       descripcion: input.descripcion,
       detalles: detallesServicio,
+      tipo: input.tipo,
+      proximoCambioKm: input.proximoCambioKm,
+      proximoCambioFecha: input.proximoCambioFecha ? new Date(input.proximoCambioFecha) : undefined,
+      piezaReemplazada: input.piezaReemplazada,
     });
 
     servicio.costoTotal = servicio.calcularCostoTotal();
@@ -99,25 +107,42 @@ export class RegistrarServicioUseCase {
     vehiculo.actualizarKm(input.kmRegistrado);
     await this.vehiculoRepository.actualizar(vehiculo);
 
-    // Crear recordatorio con la próxima fecha/km
-    const proximoKm = this.calculoService.calcularProximoKm(input.kmRegistrado);
-    const proximaFecha = this.calculoService.calcularProximaFecha(new Date());
-    const proxima = this.calculoService.determinarProxima(
-      input.kmRegistrado,
-      new Date()
-    );
+    // Crear recordatorio si es cambio de aceite
+    if (input.tipo === 'CAMBIO_ACEITE') {
+      let proximoKm = input.proximoCambioKm;
+      let proximaFecha = input.proximoCambioFecha ? new Date(input.proximoCambioFecha) : undefined;
+      let descripcionRecordatorio = 'Próximo cambio de aceite.';
 
-    const recordatorio = new RecordatorioEntity({
-      id: this.generarId(),
-      vehiculoId: input.vehiculoId,
-      clienteId: input.clienteId,
-      tipoRecordatorio: 'CAMBIO_ACEITE',
-      kmProximo: proximoKm,
-      fechaProxima: proximaFecha,
-      descripcion: `Próximo cambio de aceite. Ocurre por: ${proxima.tipo}`,
-    });
+      // Si no se proveen, calcularlos (fallback)
+      if (!proximoKm) {
+        proximoKm = this.calculoService.calcularProximoKm(input.kmRegistrado);
+      }
+      if (!proximaFecha) {
+        proximaFecha = this.calculoService.calcularProximaFecha(new Date());
+      }
 
-    await this.recordatorioRepository.crear(recordatorio);
+      const proxima = this.calculoService.determinarProxima(
+        input.kmRegistrado,
+        new Date()
+      );
+
+      // Si se calcularon automáticamente, agregar detalle a la descripción
+      if (!input.proximoCambioKm && !input.proximoCambioFecha) {
+        descripcionRecordatorio += ` Ocurre por: ${proxima.tipo}`;
+      }
+
+      const recordatorio = new RecordatorioEntity({
+        id: this.generarId(),
+        vehiculoId: input.vehiculoId,
+        clienteId: input.clienteId,
+        tipoRecordatorio: 'CAMBIO_ACEITE',
+        kmProximo: proximoKm,
+        fechaProxima: proximaFecha,
+        descripcion: descripcionRecordatorio,
+      });
+
+      await this.recordatorioRepository.crear(recordatorio);
+    }
 
     return servicioGuardado;
   }
