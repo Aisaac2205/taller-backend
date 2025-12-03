@@ -40,10 +40,10 @@ export class ServicioTypeormEntity {
   @Column({ name: 'kmregistrado' })
   kmRegistrado!: number;
 
-  @Column()
+  @Column({ nullable: true })
   descripcion!: string;
 
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   detalles!: Array<{
     productoId: string;
     cantidad: number;
@@ -53,11 +53,24 @@ export class ServicioTypeormEntity {
   @Column({
     type: 'enum',
     enum: ['PENDIENTE', 'EN_PROCESO', 'COMPLETADO', 'CANCELADO'],
+    nullable: true,
   })
   estado!: string;
 
-  @Column('decimal', { precision: 12, scale: 2, name: 'costototal' })
+  @Column('decimal', { precision: 12, scale: 2, name: 'costototal', nullable: true })
   costoTotal!: number;
+
+  @Column({ default: 'GENERAL', nullable: true })
+  tipo!: string;
+
+  @Column({ name: 'proximocambiokm', nullable: true })
+  proximoCambioKm!: number;
+
+  @Column({ name: 'proximocambiofecha', nullable: true, type: 'timestamp' })
+  proximoCambioFecha!: Date;
+
+  @Column({ name: 'piezareemplazada', nullable: true })
+  piezaReemplazada!: string;
 
   @CreateDateColumn({ name: 'creadoen' })
   creadoEn!: Date;

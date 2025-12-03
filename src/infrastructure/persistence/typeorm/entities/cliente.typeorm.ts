@@ -11,16 +11,16 @@ export class ClienteTypeormEntity {
   @PrimaryColumn('uuid')
   id!: string;
 
-  @Column()
+  @Column({ nullable: true })
   nombre!: string;
 
   @Column({ nullable: true })
   email!: string;
 
-  @Column()
+  @Column({ nullable: true })
   telefono!: string;
 
-  @Column()
+  @Column({ nullable: true })
   direccion!: string;
 
   @CreateDateColumn({ name: 'creadoen' })

@@ -21,19 +21,19 @@ export class VehiculoTypeormEntity {
   @JoinColumn({ name: 'clienteid' })
   cliente!: ClienteTypeormEntity;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   placa!: string;
 
-  @Column()
+  @Column({ nullable: true })
   marca!: string;
 
-  @Column()
+  @Column({ nullable: true })
   modelo!: string;
 
-  @Column()
+  @Column({ nullable: true })
   anio!: number;
 
-  @Column({ name: 'kmactual' })
+  @Column({ name: 'kmactual', nullable: true })
   kmActual!: number;
 
   @CreateDateColumn({ name: 'creadoen' })

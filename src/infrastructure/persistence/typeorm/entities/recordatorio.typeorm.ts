@@ -33,21 +33,23 @@ export class RecordatorioTypeormEntity {
     type: 'enum',
     enum: ['CAMBIO_ACEITE', 'MANTENIMIENTO'],
     name: 'tiporecordatorio',
+    nullable: true,
   })
   tipoRecordatorio!: string;
 
-  @Column({ name: 'kmproximo' })
+  @Column({ name: 'kmproximo', nullable: true })
   kmProximo!: number;
 
-  @Column({ name: 'fechaproxima' })
+  @Column({ name: 'fechaproxima', nullable: true })
   fechaProxima!: Date;
 
-  @Column()
+  @Column({ nullable: true })
   descripcion!: string;
 
   @Column({
     type: 'enum',
     enum: ['PENDIENTE', 'COMPLETADO', 'CANCELADO'],
+    nullable: true,
   })
   estado!: string;
 

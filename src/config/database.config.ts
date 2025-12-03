@@ -37,4 +37,3 @@ export const getTypeOrmConfig = (
     logging: process.env.NODE_ENV === 'development',
   };
 };
-

@@ -11,18 +11,19 @@ export class UsuarioTypeormEntity {
   @PrimaryColumn('uuid')
   id!: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   email!: string;
 
-  @Column({ name: 'passwordhash' })
+  @Column({ name: 'passwordhash', nullable: true })
   passwordHash!: string;
 
-  @Column()
+  @Column({ nullable: true })
   nombre!: string;
 
   @Column({
     type: 'enum',
     enum: ['admin', 'owner', 'mechanic', 'recepcion'],
+    nullable: true,
   })
   rol!: string;
 

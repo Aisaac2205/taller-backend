@@ -29,7 +29,7 @@ export class VentaTypeormEntity {
   @JoinColumn({ name: 'usuarioid' })
   usuario!: UsuarioTypeormEntity;
 
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   detalles!: Array<{
     productoId: string;
     cantidad: number;
@@ -39,10 +39,11 @@ export class VentaTypeormEntity {
   @Column({
     type: 'enum',
     enum: ['PENDIENTE', 'COMPLETADA', 'CANCELADA'],
+    nullable: true,
   })
   estado!: string;
 
-  @Column('decimal', { precision: 12, scale: 2, name: 'costototal' })
+  @Column('decimal', { precision: 12, scale: 2, name: 'costototal', nullable: true })
   costoTotal!: number;
 
   @CreateDateColumn({ name: 'creadoen' })
